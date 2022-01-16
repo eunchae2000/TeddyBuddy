@@ -1,2 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+        <string-array name="spinnerArray_1">
+
+            <item> 순위 </item>
+
+            <item> 보드게임 </item>
+
+            <item> 온라인 게임 </item>
+
+            <item> 레고 </item>
+
+            <item> 독서 </item>
+
+            <item> 악기연주 </item>
+
+            <item> 인형놀이 </item>
+
+            <item> sns </item>
+
+            <item> 아이돌 </item>
+
+            <item> 유튜브 </item>
+
+            <item> 운동 </item>
+
+            <item> 애니메이션 </item>
+
+            <item> 웹툰 </item>
+
+        </string-array>
+
+</resources>
