@@ -8,13 +8,16 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserMapper {
 
-    @Select("select user_id from user where user_id=#{id}")
-    UserDto findUserById(@Param("user_id") String id);
+    @Select("select * from public.\"user\" where user_id=#{id}")
+    @Results({
+            @Result(property="id", column="user_id")
+    })
+    UserDto findUserById(String id);
 
-    @Insert("insert into user values(#{name},#{id},#{password})")
+    @Insert("insert into public.\"user\" values(#{name},#{id},#{password})")
     @Options(useGeneratedKeys = true,keyProperty = "user_id",keyColumn = "user_id")
     void signup(UserDto user);
 
-    @Select("select user_id from user where user_id=#{id} and user_password=#{password}")
+    @Select("select user_id from public.\"user\" where user_id=#{id} and user_password=#{password}")
     String signin(UserDto user);
 }
