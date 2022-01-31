@@ -18,13 +18,13 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/signup")
-    public ResultDto signup(@RequestBody UserDto user) {
+    public ResultDto signup(@RequestBody UserDto.Signup user) {
         return userService.signup(user);
     }
 
     // 로그인
     @PostMapping("/signin")
-    public ResultDto signin(@RequestBody UserDto user) {
+    public ResultDto signin(@RequestBody UserDto.Signin user) {
         return userService.signin(user);
     }
 }
