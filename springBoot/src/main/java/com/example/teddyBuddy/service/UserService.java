@@ -34,6 +34,7 @@ public class UserService {
         return result;
     }
 
+    //로그인
     public ResultDto signin(UserDto.Signin user){
         ResultDto result=new ResultDto();
         result.setSuccess(false);
