@@ -2,10 +2,8 @@ package com.example.teddyBuddy.mapper;
 
 import com.example.teddyBuddy.dto.UserDto;
 import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Repository;
 
 @Mapper
-@Repository
 public interface UserMapper {
 
     //아이디 값 존재 확인
