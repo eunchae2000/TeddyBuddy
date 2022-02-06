@@ -1,17 +1,12 @@
 package com.example.teddybuddy;
 
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface LoginInterface {
-    String LoginUrl = "http://192.168.96.22:8081/";
-
-    @FormUrlEncoded
-    @POST("user/{signin}")
-    Call<LoginInfomation> getSignin(
-            @Field("userId") String user_id,
-            @Field("userPw") String user_pw
+    @POST("user/signin")
+    Call<LoginInformation> getSignin(
+            @Body LoginInformation loginInformation  //서버에서 json으로 요청받으므로 @Field가 아닌 @Body사용
     );
 }

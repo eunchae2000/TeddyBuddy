@@ -12,7 +12,7 @@ import retrofit2.http.Path;
 
 public interface RetrofitService {
     @POST("user/{signin}")
-    Call<PostResult> getSignin(@Body LoginInfomation loginInfomation);
+    Call<PostResult> getSignin(@Body LoginInformation loginInformation);
     @POST("user/{signup}")
     Call<PostResult> getSignup(
             @Body String userId,
