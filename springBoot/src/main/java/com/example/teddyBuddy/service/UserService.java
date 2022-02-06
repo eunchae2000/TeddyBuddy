@@ -11,14 +11,16 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public ResultDto signup(UserDto user){
+    // 회원가입
+    public ResultDto signup(UserDto.Signup user){
         ResultDto result=new ResultDto();
         result.setSuccess(false);
         result.setDetail(null);
         try {
-            UserDto userById = userMapper.findUserById(user.getId());
+            UserDto.IdCheck userById = userMapper.findUserById(user.getId());
             if(userById!=null){
                 result.setMsg("이미있는 아이디");
+                result.setDetail(userById);
             }else {
                 userMapper.signup(user);
                 result.setMsg("회원가입 성공");
@@ -32,7 +34,8 @@ public class UserService {
         return result;
     }
 
-    public ResultDto signin(UserDto user){
+    //로그인
+    public ResultDto signin(UserDto.Signin user){
         ResultDto result=new ResultDto();
         result.setSuccess(false);
         result.setDetail(null);
@@ -43,8 +46,7 @@ public class UserService {
             }else {
                 result.setMsg("로그인 성공");
                 result.setSuccess(true);
-                user.setId(userId);
-                UserDto userById = userMapper.findUserById(userId);
+                UserDto.IdCheck userById = userMapper.findUserById(userId);
                 result.setDetail(userById);
             }
 
