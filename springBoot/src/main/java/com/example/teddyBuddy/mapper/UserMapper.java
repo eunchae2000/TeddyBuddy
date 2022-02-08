@@ -2,22 +2,87 @@ package com.example.teddyBuddy.mapper;
 
 import com.example.teddyBuddy.dto.UserDto;
 import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 @Mapper
-@Repository
 public interface UserMapper {
 
-    @Select("select * from public.\"user\" where user_id=#{id}")
+    //아이디 값 존재 확인
+    @Select("select user_id from public.\"users\" where user_id=#{id}")
     @Results({
             @Result(property="id", column="user_id")
     })
-    UserDto findUserById(String id);
+    UserDto.IdCheck findUserById(String id);
 
-    @Insert("insert into public.\"user\" values(#{name},#{id},#{password})")
-    @Options(useGeneratedKeys = true,keyProperty = "user_id",keyColumn = "user_id")
-    void signup(UserDto user);
+    //회원가입
+    @Insert("insert into public.\"users\"(user_name, user_id, user_password, user_nickname, user_age, user_gender, companion_name, companion_num, interests_1st, interests_2nd, interests_3rd) values(#{name}, #{id}, #{password}, #{nickname}, #{age},  #{gender},  #{companionName}, #{companionNum},  #{interests1st}, #{interests2nd}, #{interests3rd})")
+    void signup(UserDto.Signup user);
 
-    @Select("select user_id from public.\"user\" where user_id=#{id} and user_password=#{password}")
-    String signin(UserDto user);
+    //로그인
+    @Select("select user_id from public.\"users\" where user_id=#{id} and user_password=#{password}")
+    String signin(UserDto.Signin user);
+
+    //친구 매칭 관심사1순위,2순위,3순위 일치
+    @Select("select user_id from public.\"users\" where interests_1st=#{interests1st} and interests_2nd=#{interests2nd} and interests_3rd=#{interests3rd} " +
+            "and friend_cnt<3 " +
+            "and user_id not in (" +
+            "SELECT DISTINCT user_id FROM public.\"users_chats\" WHERE chat_id IN (" +
+            "SELECT chat_id FROM public.\"users_chats\" where user_id=#{id}))")
+    @Results({
+            @Result(property="id", column="user_id")
+    })
+    List<UserDto.Friends> friendInterests123(UserDto.Friend user);
+
+    //친구 매칭 관심사1순위,2순위 일치
+    @Select("select user_id from public.\"users\" where interests_1st=#{interests1st} and interests_2nd=#{interests2nd} " +
+            "and friend_cnt<3" +
+            "and user_id not in (" +
+            "SELECT DISTINCT user_id FROM public.\"users_chats\" WHERE chat_id IN (" +
+            "SELECT chat_id FROM public.\"users_chats\" where user_id=#{id}))")
+    @Results({
+            @Result(property="id", column="user_id")
+    })
+    List<UserDto.Friends> friendInterests12(UserDto.Friend user);
+
+    //친구 매칭 관심사1순위만 일치
+    @Select("select user_id from public.\"users\" where interests_1st=#{interests1st} " +
+            "and friend_cnt<3" +
+            "and user_id not in (" +
+            "SELECT DISTINCT user_id FROM public.\"users_chats\" WHERE chat_id IN (" +
+            "SELECT chat_id FROM public.\"users_chats\" where user_id=#{id}))")
+    @Results({
+            @Result(property="id", column="user_id")
+    })
+    List<UserDto.Friends> friendInterests1(UserDto.Friend user);
+
+    //채팅방123 추가
+    @Insert("insert into public.\"chats\"(chat_interests_1st, chat_interests_2nd, chat_interests_3rd) values(#{interests1st}, #{interests2nd}, #{interests3rd})")
+    @SelectKey(keyProperty = "chatId",keyColumn = "chat_id",resultType = int.class,before = false,statement = "select currval('chats_chat_id_seq')")
+    int insertChat123(UserDto.Friend user);
+
+    //채팅방12 추가
+    @Insert("insert into public.\"chats\"(chat_interests_1st, chat_interests_2nd) values(#{interests1st}, #{interests2nd})")
+    @SelectKey(keyProperty = "chatId",keyColumn = "chat_id",resultType = int.class,before = false,statement = "select currval('chats_chat_id_seq')")
+    int insertChat12(UserDto.Friend user);
+
+    //채팅방1 추가
+    @Insert("insert into public.\"chats\"(chat_interests_1st) values(#{interests1st})")
+    @SelectKey(keyProperty = "chatId",keyColumn = "chat_id",resultType = int.class,before = false,statement = "select currval('chats_chat_id_seq')")
+    int insertChat1(UserDto.Friend user);
+
+    //채팅 추가
+    @Insert("insert into public.\"users_chats\"(user_id, chat_id) values(#{user_id}, #{chat_id})")
+    void insertUserAndChat(String user_id, int chat_id);
+
+    //친구 조회
+    @Select("select distinct user_id from public.\"users_chats\" where user_id not in (#{id}) and chat_id in (" +
+            "select chat_id from public.\"users_chats\" where users_id=#{id}")
+    @Results({
+            @Result(property="id", column="user_id")
+    })
+    List<UserDto.Friends> findFriendById(UserDto.Friend user);
+
+    //친구 수 1증가
+    @Update("UPDATE public.\"users\" SET friend_cnt = friend_cnt+1 WHERE user_id=#{id}")
+    void updateFriendCnt(String id);
 }

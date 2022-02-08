@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:src="@drawable/teddybuddylogoblack1" />
+
+    <EditText
+        android:fontFamily="@font/goodfont"
+        android:id="@+id/userId"
+        android:textSize="30dp"
+        android:inputType="text"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:hint="아이디" />
+
+    <EditText
+        android:id="@+id/userPw"
+        android:fontFamily="@font/goodfont"
+        android:textSize="30dp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/emailInput"
+        android:inputType="numberPassword"
+        android:layout_centerHorizontal="true"
+        android:hint="비밀번호" />
+    <EditText
+        android:id="@+id/childName"
+        android:textSize="30dp"
+        android:fontFamily="@font/goodfont"
+        android:layout_width="300dp"
+        android:inputType="textPersonName"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:hint="아동 이름" />
+
+    <EditText
+        android:id="@+id/childAge"
+        android:textSize="30dp"
+        android:fontFamily="@font/goodfont"
+        android:layout_width="300dp"
+        android:inputType="text"
+        android:layout_height="50dp"
+        android:layout_below="@+id/emailInput"
+        android:layout_centerHorizontal="true"
+        android:hint="아동 나이" />
+    <EditText
+        android:id="@+id/nickName"
+        android:textSize="30dp"
+        android:fontFamily="@font/goodfont"
+        android:layout_width="300dp"
+        android:inputType="textPersonName"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:hint="닉네임" />
+
+    <EditText
+        android:id="@+id/parentName"
+        android:textSize="30dp"
+        android:fontFamily="@font/goodfont"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/emailInput"
+        android:layout_centerHorizontal="true"
+        android:hint="부모님 이름" />
+
+    <EditText
+        android:id="@+id/parentTel"
+        android:textSize="30dp"
+        android:fontFamily="@font/goodfont"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:inputType="phone"
+        android:layout_below="@+id/emailInput"
+        android:layout_centerHorizontal="true"
+        android:hint="부모님 전화번호" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:fontFamily="@font/goodfont"
+            android:textSize="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="아동 성별"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rg"
+            android:orientation="horizontal">
+
+            <RadioButton android:id="@+id/boy_btn"
+                android:text="남"
+                android:fontFamily="@font/goodfont"
+                android:textSize="30dp"
+                android:layout_marginLeft="40dp"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RadioButton android:id="@+id/girl_btn"
+                android:textSize="30dp"
+                android:text="여"
+                android:fontFamily="@font/goodfont"
+                android:layout_marginLeft="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RadioGroup>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:fontFamily="@font/goodfont"
+            android:text="좋아하는 놀이 고르기!"/>
+        <Spinner
+            android:gravity="center"
+            android:id="@+id/spinner1"
+            android:fontFamily="@font/goodfont"
+            android:entries="@array/spinner1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </Spinner>
+        <Spinner
+            android:gravity="center"
+            android:id="@+id/spinner2"
+            android:fontFamily="@font/goodfont"
+            android:entries="@array/spinner2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </Spinner>
+        <Spinner
+            android:gravity="center"
+            android:id="@+id/spinner3"
+            android:fontFamily="@font/goodfont"
+            android:entries="@array/spinner3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </Spinner>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <Button
+            android:id="@+id/signup_btn"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:backgroundTint="#86B1FC"
+            android:fontFamily="@font/goodfont"
+            android:text="회원가입"
+            android:textSize="40dp"/>
+    </LinearLayout>
+</LinearLayout>
