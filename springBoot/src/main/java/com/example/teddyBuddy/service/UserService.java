@@ -6,6 +6,9 @@ import com.example.teddyBuddy.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
@@ -48,6 +51,67 @@ public class UserService {
                 result.setSuccess(true);
                 UserDto.IdCheck userById = userMapper.findUserById(userId);
                 result.setDetail(userById);
+            }
+
+        }catch (Exception e){
+            result.setMsg(e.getMessage());
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    //친구 매칭
+    public ResultDto friend(UserDto.Friend user){
+        ResultDto result=new ResultDto();
+        result.setSuccess(false);
+        result.setDetail(null);
+        try {
+            List<UserDto.Friends> friends = userMapper.friendInterests123(user);
+            List<String> list = new ArrayList<>();
+            if(friends.size()!=0){
+                friends.forEach(s -> list.add(s.getId()));
+                int rnd = (int)(Math.random()*list.size());
+                String friendId = list.get(rnd);
+                userMapper.insertChat123(user);
+                userMapper.insertUserAndChat(user.getId(), user.getChatId());
+                userMapper.insertUserAndChat(friendId, user.getChatId());
+                userMapper.updateFriendCnt(user.getId());
+                userMapper.updateFriendCnt(friendId);
+                result.setMsg("친구 매칭 성공");
+                result.setSuccess(true);
+                result.setDetail(friendId);
+            }else{
+                friends = userMapper.friendInterests12(user);
+                if(friends.size()!=0){
+                    friends.forEach(s -> list.add(s.getId()));
+                    int rnd = (int)(Math.random()*list.size());
+                    String friendId = list.get(rnd);
+                    userMapper.insertChat12(user);
+                    userMapper.insertUserAndChat(user.getId(), user.getChatId());
+                    userMapper.insertUserAndChat(friendId, user.getChatId());
+                    userMapper.updateFriendCnt(user.getId());
+                    userMapper.updateFriendCnt(friendId);
+                    result.setMsg("친구 매칭 성공");
+                    result.setSuccess(true);
+                    result.setDetail(friendId);
+                }else{
+                    friends = userMapper.friendInterests1(user);
+                    if(friends.size()!=0){
+                        friends.forEach(s -> list.add(s.getId()));
+                        int rnd = (int)(Math.random()*list.size());
+                        String friendId = list.get(rnd);
+                        userMapper.insertChat1(user);
+                        userMapper.insertUserAndChat(user.getId(), user.getChatId());
+                        userMapper.insertUserAndChat(friendId, user.getChatId());
+                        userMapper.updateFriendCnt(user.getId());
+                        userMapper.updateFriendCnt(friendId);
+                        result.setMsg("친구 매칭 성공");
+                        result.setSuccess(true);
+                        result.setDetail(friendId);
+                    }else{
+                        result.setMsg("매칭가능한 친구가 없습니다");
+                    }
+                }
             }
 
         }catch (Exception e){
