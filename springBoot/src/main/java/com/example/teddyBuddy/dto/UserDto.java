@@ -23,6 +23,7 @@ public class UserDto {
     @Getter
     public static class IdCheck {
         private String id;
+        private String nickname;
     }
 
     @Getter
