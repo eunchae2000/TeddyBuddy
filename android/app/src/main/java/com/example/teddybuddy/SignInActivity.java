@@ -30,6 +30,7 @@ public class SignInActivity extends AppCompatActivity {
     private Button signup_btn, signin_btn;
 
     public final String TAG = "SignInActivity";
+    static final String base = "http://192.168.0.105:8080/";
 
 
     @Override
@@ -65,7 +66,7 @@ public class SignInActivity extends AppCompatActivity {
 
             Retrofit retrofit = new Retrofit.Builder()
 //                    서버 url 맞추기
-                    .baseUrl("http://192.168.219.102:8080/")
+                    .baseUrl(base)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
@@ -85,6 +86,7 @@ public class SignInActivity extends AppCompatActivity {
                             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                             intent.putExtra("user_id",user_id);
                             intent.putExtra("user_pw",user_pw);
+
                             startActivity(intent);
                         } else { // 로그인에 실패한 경우
                             Log.e(TAG, "실패: " + response.code() + body.getMsg());
