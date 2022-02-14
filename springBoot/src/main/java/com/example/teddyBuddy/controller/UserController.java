@@ -25,6 +25,7 @@ public class UserController {
         return userService.signin(user);
     }
 
+    //친구 매칭
     @GetMapping("/friend")
     public ResultDto friend(
             @RequestParam("user_id") String id,
