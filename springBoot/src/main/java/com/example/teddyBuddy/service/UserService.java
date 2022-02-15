@@ -121,4 +121,27 @@ public class UserService {
         return result;
     }
 
+    //친구정보
+    public ResultDto friendInfo(UserDto.Friends user){
+        ResultDto result=new ResultDto();
+        result.setSuccess(false);
+        result.setDetail(null);
+        try {
+            List<UserDto.Friends> friendList = userMapper.findFriendById(user);
+            if(friendList.size()!=0){
+                List<UserDto.FriendInfo> friendInfo = new ArrayList<>();
+                friendList.forEach(s -> friendInfo.add(userMapper.friendInfo(s.getId())));
+                result.setMsg("친구정보 조회 성공");
+                result.setSuccess(true);
+                result.setDetail(friendInfo);
+            }else {
+                result.setMsg("친구 없음");
+            }
+        }catch (Exception e){
+            result.setMsg(e.getMessage());
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }
