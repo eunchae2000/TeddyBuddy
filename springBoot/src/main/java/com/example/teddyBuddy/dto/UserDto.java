@@ -43,7 +43,15 @@ public class UserDto {
     }
 
     @Getter
+    @Setter
     public static class Friends {
         private String id;
+    }
+
+    @Getter
+    public static class FriendInfo {
+        private String id;
+        private String nickname;
+        private String age;
     }
 }
