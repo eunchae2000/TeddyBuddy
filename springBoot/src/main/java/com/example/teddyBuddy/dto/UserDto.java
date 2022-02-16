@@ -49,9 +49,11 @@ public class UserDto {
     }
 
     @Getter
+    @Setter
     public static class FriendInfo {
         private String id;
         private String nickname;
         private String age;
+        private String chatId;
     }
 }

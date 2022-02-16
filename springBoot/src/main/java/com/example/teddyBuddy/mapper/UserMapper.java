@@ -78,7 +78,7 @@ public interface UserMapper {
     @Insert("insert into public.\"users_chats\"(user_id, chat_id) values(#{user_id}, #{chat_id})")
     void insertUserAndChat(String user_id, int chat_id);
 
-    //친구 조회
+    //친구아이디 조회
     @Select("select distinct user_id from public.\"users_chats\" where user_id not in (#{id}) and chat_id in (" +
             "select chat_id from public.\"users_chats\" where user_id=#{id})")
     @Results({
@@ -98,4 +98,9 @@ public interface UserMapper {
             @Result(property = "age", column = "user_age")
     })
     UserDto.FriendInfo friendInfo(String id);
+
+    //채팅방 ID 조회
+    @Select("SELECT a.chat_id FROM public.\"users_chats\" a, public.\"users_chats\" b " +
+            "WHERE a.user_id=#{id} and b.user_id=#{friendId} and a.chat_id=b.chat_id")
+    String chatId(String id, String friendId);
 }

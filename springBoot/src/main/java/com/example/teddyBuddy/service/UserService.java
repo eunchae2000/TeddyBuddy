@@ -131,6 +131,7 @@ public class UserService {
             if(friendList.size()!=0){
                 List<UserDto.FriendInfo> friendInfo = new ArrayList<>();
                 friendList.forEach(s -> friendInfo.add(userMapper.friendInfo(s.getId())));
+                friendInfo.forEach(s -> s.setChatId(userMapper.chatId(user.getId(), s.getId())));
                 result.setMsg("친구정보 조회 성공");
                 result.setSuccess(true);
                 result.setDetail(friendInfo);
