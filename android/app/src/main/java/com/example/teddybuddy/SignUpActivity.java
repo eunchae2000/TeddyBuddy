@@ -1,5 +1,7 @@
 package com.example.teddybuddy;
 
+import static com.example.teddybuddy.SignInActivity.base;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,7 +75,6 @@ public class SignUpActivity extends AppCompatActivity {
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // EditText에 현재 입력되어있는 값을 get(가져온다)해온다.
                 startSignup();
             }
         });
@@ -84,8 +85,8 @@ public class SignUpActivity extends AppCompatActivity {
             String name = childName.getText().toString();
             String age = childAge.getText().toString();
             String nickname = nickName.getText().toString();
-            String companionName = parentTel.getText().toString();
-            String companionNum = parentName.getText().toString();
+            String companionName = parentName.getText().toString();
+            String companionNum = parentTel.getText().toString();
             int rgId = rg.getCheckedRadioButtonId();
             RadioButton rb = (RadioButton) findViewById(rgId);
             String gender = rb.getText().toString();
@@ -97,7 +98,7 @@ public class SignUpActivity extends AppCompatActivity {
             RegisterInformation registerInformation = new RegisterInformation(id, password, name, nickname, age, gender, companionName, companionNum,  interests1st, interests2nd, interests3rd);
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.0.105:8080/")
+                    .baseUrl(base)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 

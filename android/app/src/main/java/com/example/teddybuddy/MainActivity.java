@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    private ImageButton speech_btn;
+    ImageButton speech_btn;
     Intent intent;
     TextView result_text;
     SpeechRecognizer mRecognizer;
@@ -136,28 +136,39 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onResults(Bundle results) {
             ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-            String [] rs = new String[matches.size()];
-            matches.toArray(rs);
-
-            Intent mainintent = getIntent();
-            Bundle bundle = mainintent.getExtras();
-            String id = bundle.getString("user_id");
-            String nickname = bundle.getString("user_pw");
-            System.out.println(id);
-            System.out.println(nickname);
-
-            result_text.setText(id + " / " + nickname);
 
             for(int i = 0; i < matches.size() ; i++){
-//                result_text.setText(matches.get(i));
+                result_text.setText(matches.get(i));
             }
-            String nick1 = matches.toString();
-            Log.d("Main", nick1);
 
-            if (nick1 == nickname){
+            String nick1 = "\"" + matches.get(0) + "\"";
+            System.out.println(nick1);
+
+            Intent mainintent = getIntent();
+            String nickname = mainintent.getStringExtra("nickname");
+            String id = mainintent.getStringExtra("user_id");
+            String interests1st = mainintent.getStringExtra("interests1st");
+            String interests2nd = mainintent.getStringExtra("interests2nd");
+            String interests3rd = mainintent.getStringExtra("interests3rd");
+
+            System.out.println("nickname: "+nickname);
+            System.out.println("user_id: "+id);
+            System.out.println("interests1:" + interests1st);
+            System.out.println("interests2:" + interests2nd);
+            System.out.println("interests3:" + interests3rd);
+
+            if (nickname.equals(nick1)){
                 // 메인화면 1로 화면 넘김
+                System.out.println("true");
                 Intent intent = new Intent(MainActivity.this, MainActivity1.class);
+                intent.putExtra("nickname", nickname);
+                intent.putExtra("user_id", id);
+                intent.putExtra("interests1st", interests1st);
+                intent.putExtra("interests2nd", interests2nd);
+                intent.putExtra("interests3rd", interests3rd);
                 startActivity(intent);
+            }else{
+                System.out.println("false");
             }
         }
 
