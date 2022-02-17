@@ -8,10 +8,13 @@ import java.util.List;
 public interface UserMapper {
 
     //아이디 값 존재 확인
-    @Select("select user_id, user_nickname from public.\"users\" where user_id=#{id}")
+    @Select("select user_id, user_nickname, interests_1st, interests_2nd, interests_3rd from public.\"users\" where user_id=#{id}")
     @Results({
             @Result(property="id", column="user_id"),
-            @Result(property="nickname", column="user_nickname")
+            @Result(property="nickname", column="user_nickname"),
+            @Result(property="interests1st", column="interests_1st"),
+            @Result(property="interests2nd", column="interests_2nd"),
+            @Result(property="interests3rd", column="interests_3rd"),
     })
     UserDto.IdCheck findUserById(String id);
 

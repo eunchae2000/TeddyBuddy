@@ -24,6 +24,9 @@ public class UserDto {
     public static class IdCheck {
         private String id;
         private String nickname;
+        private String interests1st;
+        private String interests2nd;
+        private String interests3rd;
     }
 
     @Getter
