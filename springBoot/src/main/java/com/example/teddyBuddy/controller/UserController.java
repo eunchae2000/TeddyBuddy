@@ -4,6 +4,7 @@ package com.example.teddyBuddy.controller;
 import com.example.teddyBuddy.dto.ResultDto;
 import com.example.teddyBuddy.dto.UserDto;
 import com.example.teddyBuddy.service.UserService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,7 @@ public class UserController {
         return userService.signin(user);
     }
 
+    //친구 매칭
     @GetMapping("/friend")
     public ResultDto friend(
             @RequestParam("user_id") String id,
@@ -37,5 +39,13 @@ public class UserController {
         user.setInterests2nd(interests2nd);
         user.setInterests3rd(interests3rd);
         return userService.friend(user);
+    }
+
+    //친구정보
+    @GetMapping("/friendInfo")
+    public ResultDto friendInfo(@RequestParam("user_id") String id) {
+        UserDto.Friends user = new UserDto.Friends();
+        user.setId(id);
+        return userService.friendInfo(user);
     }
 }

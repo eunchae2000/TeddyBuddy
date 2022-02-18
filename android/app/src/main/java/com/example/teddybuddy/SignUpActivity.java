@@ -1,9 +1,12 @@
 package com.example.teddybuddy;
 
+import static com.example.teddybuddy.SignInActivity.base;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,11 +33,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignUpActivity extends AppCompatActivity {
-    private EditText userId, userPw, childName, childAge, parentName, parentTel, nickName;
+    public EditText userId, userPw, childName, childAge, parentName, parentTel, nickName;
     private RadioGroup rg;
     private Button signup_btn;
     private Spinner spinner1, spinner2, spinner3;
-    private ArrayAdapter adapter;
     public final String TAG = "SignUpActivity";
 
     @Override
@@ -41,15 +44,21 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner1);
+        spinner1 = findViewById(R.id.spinner1);
+        spinner2 = findViewById(R.id.spinner2);
+        spinner3 = findViewById(R.id.spinner3);
+
         ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this, R.array.spinner1, android.R.layout.simple_spinner_item);
         ArrayAdapter adapter2 = ArrayAdapter.createFromResource(this, R.array.spinner2, android.R.layout.simple_spinner_item);
         ArrayAdapter adapter3 = ArrayAdapter.createFromResource(this, R.array.spinner3, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter1);
-        spinner.setAdapter(adapter2);
-        spinner.setAdapter(adapter3);
 
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner1.setAdapter(adapter1);
+        spinner2.setAdapter(adapter2);
+        spinner3.setAdapter(adapter3);
 
         userId = findViewById(R.id.userId);
         userPw = findViewById(R.id.userPw);
@@ -58,9 +67,6 @@ public class SignUpActivity extends AppCompatActivity {
         parentName = findViewById(R.id.parentName);
         parentTel = findViewById(R.id.parentTel);
         nickName = findViewById(R.id.nickName);
-        spinner1 = findViewById(R.id.spinner1);
-        spinner2 = findViewById(R.id.spinner2);
-        spinner3 = findViewById(R.id.spinner3);
         rg = findViewById(R.id.rg);
 
         signup_btn = findViewById(R.id.signup_btn);
@@ -69,41 +75,43 @@ public class SignUpActivity extends AppCompatActivity {
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // EditText에 현재 입력되어있는 값을 get(가져온다)해온다.
                 startSignup();
             }
         });
     }
         private void startSignup(){
-            String userID = userId.getText().toString();
-            String userPW = userPw.getText().toString();
-            String childname = childName.getText().toString();
-            int childage = Integer.parseInt(childAge.getText().toString());
+            String id = userId.getText().toString();
+            String password = userPw.getText().toString();
+            String name = childName.getText().toString();
+            String age = childAge.getText().toString();
             String nickname = nickName.getText().toString();
-            String parenttel = parentTel.getText().toString();
-            String parentname = parentName.getText().toString();
-            int id = rg.getCheckedRadioButtonId();
-            RadioButton rb = (RadioButton) findViewById(id);
-            String childGender = rb.getText().toString();
-            String text1 = spinner1.getSelectedItem().toString();
-            String text2 = spinner2.getSelectedItem().toString();
-            String text3 = spinner3.getSelectedItem().toString();
+            String companionName = parentName.getText().toString();
+            String companionNum = parentTel.getText().toString();
+            int rgId = rg.getCheckedRadioButtonId();
+            RadioButton rb = (RadioButton) findViewById(rgId);
+            String gender = rb.getText().toString();
+            String interests1st = spinner1.getSelectedItem().toString();
+            String interests2nd = spinner2.getSelectedItem().toString();
+            String interests3rd = spinner3.getSelectedItem().toString();
+
+
+            RegisterInformation registerInformation = new RegisterInformation(id, password, name, nickname, age, gender, companionName, companionNum,  interests1st, interests2nd, interests3rd);
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.96.22:8081/")
+                    .baseUrl(base)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
             RegisterInterface registerInterface = retrofit.create(RegisterInterface.class);
-            Call<RegisterInformation> call = registerInterface.getSignup(userID, userPW, childname, childage, nickname, parenttel, parentname, childGender, text1, text2, text3);
+            Call<RegisterInformation> call = registerInterface.getSignup(registerInformation);
             call.enqueue(new Callback<RegisterInformation>() {
                 @Override
                 public void onResponse( Call<RegisterInformation> call, Response<RegisterInformation> response) {
+                    RegisterInformation body = response.body();
                     Log.d(TAG, "is: " + response.body().toString());
-                    if (response.isSuccessful()) { // 회원등록에 성공한 경우 Log.d(TAG, "ok");
-                        Log.d(TAG, "ok1");
-                        RegisterInformation infomation = response.body();
-                        Log.d(TAG, "아이디: " + userID + "비밀번호: " + userPW + "아동 이름: " + childname + "아동 나이: " + childage + "닉네임: " + nickname + "부모 번호: " + parenttel + "부모 이름: " + parentname + "선호 1: " + text1 + "선호 2: " + text2 + "선호3: " + text3 + "성별: " + childGender);
+                    if (response.isSuccessful() && body.isSuccess()) { // 회원등록에 성공했을 경우
+                        Log.d(TAG, "성공: " + new Gson().toJson(response.body()));
+                        Log.d(TAG, "아이디: " + id + "비밀번호: " + password + "아동 이름: " + name + "아동 나이: " + age + "닉네임: " + nickname + "부모 번호: " + companionName + "부모 이름: " + companionNum + "선호 1: " + interests1st + "선호 2: " + interests2nd + "선호3: " + interests3rd + "성별: " + gender);
                         Toast.makeText(getApplicationContext(), "회원 등록에 성공하였습니다.", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
                         startActivity(intent);

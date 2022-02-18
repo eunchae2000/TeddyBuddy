@@ -13,18 +13,20 @@
         android:layout_width="350dp"
         android:layout_height="200dp"/>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/btn1"
-        android:src="@drawable/grayheart"
-        android:layout_width="300dp"
-        android:layout_height="300dp"/>
+        android:src="@drawable/gray"
+        android:layout_width="270dp"
+        android:layout_height="260dp"/>
 
     <TextView
+        android:id="@+id/result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/goodfont"
         android:textSize="40dp"
+        android:inputType="text"
         android:text="곰돌이 친구의 이름을 불러주세요!" />
 
 </LinearLayout>

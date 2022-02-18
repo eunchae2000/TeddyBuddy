@@ -20,6 +20,8 @@ public class ConnectionFriend extends AppCompatActivity {
         Glide.with(this).load(R.drawable.connectheart).into(gifImage);
         // GIF add code -
 
+
+
     }
 
 }

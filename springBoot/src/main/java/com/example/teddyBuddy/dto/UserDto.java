@@ -23,6 +23,10 @@ public class UserDto {
     @Getter
     public static class IdCheck {
         private String id;
+        private String nickname;
+        private String interests1st;
+        private String interests2nd;
+        private String interests3rd;
     }
 
     @Getter
@@ -42,7 +46,17 @@ public class UserDto {
     }
 
     @Getter
+    @Setter
     public static class Friends {
         private String id;
+    }
+
+    @Getter
+    @Setter
+    public static class FriendInfo {
+        private String id;
+        private String nickname;
+        private String age;
+        private String chatId;
     }
 }
