@@ -33,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
     Intent intent;
     TextView result_text;
     SpeechRecognizer mRecognizer;
-    final int PERMISSION = 1;
-    private TextToSpeech tts;
+    final int PERMISSION = 9;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         // 음성인식 할 수 있는 버전인지 체크
         if ( Build.VERSION.SDK_INT >= 23 ){
             // 퍼미션 체크
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET,
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.INTERNET,
                     Manifest.permission.RECORD_AUDIO},PERMISSION);
         }
 
@@ -151,22 +150,16 @@ public class MainActivity extends AppCompatActivity {
             String interests2nd = mainintent.getStringExtra("interests2nd");
             String interests3rd = mainintent.getStringExtra("interests3rd");
 
-            System.out.println("nickname: "+nickname);
-            System.out.println("user_id: "+id);
-            System.out.println("interests1:" + interests1st);
-            System.out.println("interests2:" + interests2nd);
-            System.out.println("interests3:" + interests3rd);
-
             if (nickname.equals(nick1)){
                 // 메인화면 1로 화면 넘김
                 System.out.println("true");
-                Intent intent = new Intent(MainActivity.this, MainActivity1.class);
-                intent.putExtra("nickname", nickname);
-                intent.putExtra("user_id", id);
-                intent.putExtra("interests1st", interests1st);
-                intent.putExtra("interests2nd", interests2nd);
-                intent.putExtra("interests3rd", interests3rd);
-                startActivity(intent);
+                Intent intent1 = new Intent(MainActivity.this, MainActivity1.class);
+                intent1.putExtra("nickname", nickname);
+                intent1.putExtra("user_id", id);
+                intent1.putExtra("interests1st", interests1st);
+                intent1.putExtra("interests2nd", interests2nd);
+                intent1.putExtra("interests3rd", interests3rd);
+                startActivity(intent1);
             }else{
                 System.out.println("false");
             }
